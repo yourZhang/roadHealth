@@ -1,11 +1,14 @@
 package cn.zys.pojo;
 
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * 检查组
  */
+@ToString
 public class CheckGroup implements Serializable {
     private Integer id;//主键
     private String code;//编码
