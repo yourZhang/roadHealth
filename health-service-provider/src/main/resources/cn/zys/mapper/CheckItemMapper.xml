@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @Author: xiaozhang666 -->
+<!-- @Date: 2020/9/22 16:32 -->
+<mapper namespace="cn.zys.mapper.CheckItemMapper">
+    <select id="QueryAll" resultType="cn.zys.pojo.CheckItem">
+        select *
+        from t_checkitem
+        <where>
+            <if test="queryString != null and queryString.length > 0">
+                code like concat('%',concat(#{queryString},'%')) or name like concat('%',concat(#{queryString},'%'))
+            </if>
+        </where>
+    </select>
+
+    <insert id="addItem">
+        insert into t_checkitem (code, name, sex, age, price, type, attention, remark)
+        values (#{code}, #{name}, #{sex}, #{age}, #{price}, #{type}, #{attention}, #{remark});
+    </insert>
+
+    <select id="oneUpdate" resultType="CheckItem">
+        select *
+        from t_checkitem
+        where id = #{id}
+    </select>
+
+    <update id="updateCheck">
+        update t_checkitem
+        <set>
+            <if test="code != null and code.length > 0">
+                code = #{code},
+            </if>
+            <if test="name != null and name.length > 0">
+                name = #{name},
+            </if>
+            <if test="sex != null and sex.length > 0">
+                sex = #{sex},
+            </if>
+            <if test="age != null and age.length > 0">
+                age = #{age},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="type != null and type.length > 0">
+                type = #{type},
+            </if>
+            <if test="attention != null and attention.length > 0">
+                attention = #{attention},
+            </if>
+            <if test="remark != null and remark.length > 0">
+                remark =#{remark}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delItem">
+        delete from t_checkitem where id = #{id}
+    </delete>
+
+    <select id="findGroups" resultType="java.lang.Long">
+        select count(checkgroup_id)
+        from t_checkgroup_checkitem where checkitem_id = #{id};
+    </select>
+</mapper>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>传智健康</title>
+    <meta name="description" content="传智健康">
+    <meta name="keywords" content="传智健康">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body class="hold-transition skin-purple sidebar-mini">
+<div id="app">
+    <div class="login-container">
+        <div class="loginBox">
+            <form method="post" class="login-form" id="loginForm">
+                <div class="title-container">
+                    <div class="logoInfo clearfix">
+                        <em class="logo"></em>
+                    </div>
+                </div>
+                <div>
+                        <span class="svg-container svg-container_login">
+                          <span class="user"></span>
+                        </span>
+                    <input type="text" id="username" v-model="formData.username" name="username" placeholder="请输入用户名"/>
+                </div>
+                <div>
+                        <span class="svg-container">
+                          <span class="username"></span>
+                        </span>
+                    <input type="password" id="password" v-model="formData.password" name="password"
+                           placeholder="请输入密码"/>
+                </div>
+                <input type="button" style="width:100%;margin-bottom:30px;" value="登录" @click="login()"></input>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 引入组件库 -->
+<script src="../js/vue.js"></script>
+<script src="../plugins/elementui/index.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script src="../js/jquery-heima-0.0.1.js"></script>
+<script src="../js/public.js"></script>
+<script src="../js/qs.js"></script>
+<script>
+    // axios跨域访问，如果需要携带cookie，withCredentials必须为true
+    axios.defaults.withCredentials = true;
+    new Vue({
+        el: '#app',
+        mixins: [Mixins],
+        data: {
+            formData: {
+                username: "",
+                password: ""
+            }
+        },
+        methods: {
+            //登录
+            login() {
+                console.log(this.baseUrl)
+                //发送axios请求
+                axios({
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    method: 'post',
+                    url: this.baseUrl + "user/login",
+                    data: Qs.stringify(this.formData)
+                }).then((res) => {
+                    console.log(res.data);
+                    if(res.data.flag){
+                        location.href = "pages/main.html";
+                    }else{
+                        this.$message.error(res.data.message);
+                    }
+                }).catch(()=>{
+                    this.$message.error("错误");
+                })
+            }
+        }
+    });
+</script>
+</html>

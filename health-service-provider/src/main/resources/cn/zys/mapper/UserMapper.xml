@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @Author: xiaozhang666 -->
+<!-- @Date: 2020/9/20 22:41 -->
+<mapper namespace="cn.zys.mapper.UserMapper">
+    <select id="findAll" resultType="cn.zys.pojo.TestUser">
+        select *
+        from `user`
+    </select>
+
+    <insert id="saveUser">
+        insert into user (username, birthday, sex, address)
+        values (#{username}, #{birthday}, #{sex}, #{address});
+    </insert>
+
+    <select id="login" resultType="Integer">
+        select count(*)
+        from t_user where username = #{username} and password = #{password};
+    </select>
+
+</mapper>
