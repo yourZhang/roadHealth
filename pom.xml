@@ -14,6 +14,7 @@
         <module>health-service-provider</module>
         <module>health-oms-backend</module>
         <module>health-oms-web</module>
+        <module>health-job</module>
     </modules>
 
     <!--    指定jdk版本和编码-->
@@ -41,6 +42,10 @@
         <aspectjweaver.version>1.8.9</aspectjweaver.version>
         <spring-all.version>5.1.12.RELEASE</spring-all.version>
         <junit.version>4.12</junit.version>
+        <redis.version>2.9.0</redis.version>
+        <qiniu-java-sdk.version>7.2.25</qiniu-java-sdk.version>
+        <quartz.version>2.2.1</quartz.version>
+        <quartz-jobs.version>2.2.1</quartz-jobs.version>
     </properties>
 
     <dependencyManagement>
@@ -79,7 +84,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-tx</artifactId>
-                <version>5.1.12.RELEASE</version>
+                <version>${spring-all.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -209,6 +214,32 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${redis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>${qiniu-java-sdk.version}</version>
+            </dependency>
+            <!--定时任务-->
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz-jobs</artifactId>
+                <version>${quartz-jobs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring-all.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

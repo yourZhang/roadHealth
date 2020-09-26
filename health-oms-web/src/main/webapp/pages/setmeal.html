@@ -4,9 +4,9 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>健康之路</title>
-    <meta name="description" content="健康之路">
-    <meta name="keywords" content="健康之路">
+    <title>传智健康</title>
+    <meta name="description" content="传智健康">
+    <meta name="keywords" content="传智健康">
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <!-- 引入样式 -->
     <link rel="stylesheet" href="../plugins/elementui/index.css">
@@ -17,9 +17,36 @@
     <script src="../js/vue.js"></script>
     <script src="../plugins/elementui/index.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
-    <script src="../js/public.js"></script>
-    <script src="../js/qs.js"></script>
+    <script type="text/javascript" src="../js/qs.js"></script>
+    <script type="text/javascript" src="../js/public.js"></script>
     <style>
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
+
         .datatable {
             position: relative;
             box-sizing: border-box;
@@ -48,12 +75,12 @@
 <div id="app">
     <div class="content-header">
         <h1>预约管理
-            <small>检查组管理</small>
+            <small>套餐管理</small>
         </h1>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>预约管理</el-breadcrumb-item>
-            <el-breadcrumb-item>检查组管理</el-breadcrumb-item>
+            <el-breadcrumb-item>套餐管理</el-breadcrumb-item>
         </el-breadcrumb>
     </div>
     <div class="app-container">
@@ -66,19 +93,20 @@
             </div>
             <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
                 <el-table-column type="index" align="center" label="序号"></el-table-column>
-                <el-table-column prop="code" label="检查组编码" align="center"></el-table-column>
-                <el-table-column prop="name" label="检查组名称" align="center"></el-table-column>
+                <el-table-column prop="code" label="套餐编码" align="center"></el-table-column>
+                <el-table-column prop="name" label="套餐名称" align="center"></el-table-column>
                 <el-table-column label="适用性别" align="center">
                     <template slot-scope="scope">
                         <span>{{ scope.row.sex == '0' ? '不限' : scope.row.sex == '1' ? '男' : '女'}}</span>
                     </template>
                 </el-table-column>
+                <el-table-column prop="age" label="适用年龄" align="center"></el-table-column>
                 <el-table-column prop="helpCode" label="助记码" align="center"></el-table-column>
                 <el-table-column prop="remark" label="说明" align="center"></el-table-column>
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
-                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
-                        <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+                        <el-button type="primary" size="mini">编辑</el-button>
+                        <el-button size="mini" type="danger">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -94,7 +122,7 @@
             </div>
             <!-- 新增标签弹层 -->
             <div class="add-form">
-                <el-dialog :title="titles" :visible.sync="dialogFormVisible">
+                <el-dialog title="新增套餐" :visible.sync="dialogFormVisible">
                     <template>
                         <el-tabs v-model="activeName" type="card">
                             <el-tab-pane label="基本信息" name="first">
@@ -128,6 +156,46 @@
                                         </el-col>
                                     </el-row>
                                     <el-row>
+                                        <el-col :span="12">
+                                            <el-form-item label="套餐价格">
+                                                <el-input v-model="formData.price"/>
+                                            </el-form-item>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <el-form-item label="适用年龄">
+                                                <el-input v-model="formData.age"/>
+                                            </el-form-item>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row>
+                                        <el-col :span="24">
+                                            <el-form-item label="上传图片">
+                                                <!--
+                                                  el-upload：上传组件
+                                                  action：上传的提交地址
+                                                  auto-upload：选中文件后是否自动上传
+                                                  name：上传文件的名称，服务端可以根据名称获得上传的文件对象
+                                                  show-file-list：是否显示已上传文件列表
+                                                  on-success：文件上传成功时的钩子
+                                                  before-upload：上传文件之前的钩子
+                                                -->
+                                                <el-upload
+                                                        class="avatar-uploader"
+                                                        :action="baseUrl+'/meal/uploadImg'"
+                                                        :auto-upload="autoUpload"
+                                                        name="imgFile"
+                                                        :show-file-list="false"
+                                                        :on-success="handleAvatarSuccess"
+                                                        :before-upload="beforeAvatarUpload">
+                                                    <!--用于上传图片预览-->
+                                                    <img v-if="imageUrl" :src="qiniuAddr+imageUrl" class="avatar">
+                                                    <!--用于展示上传图标-->
+                                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                </el-upload>
+                                            </el-form-item>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row>
                                         <el-col :span="24">
                                             <el-form-item label="说明">
                                                 <el-input v-model="formData.remark" type="textarea"></el-input>
@@ -143,7 +211,7 @@
                                     </el-row>
                                 </el-form>
                             </el-tab-pane>
-                            <el-tab-pane label="检查项信息" name="second">
+                            <el-tab-pane label="检查组信息" name="second">
                                 <div class="checkScrol">
                                     <table class="datatable">
                                         <thead>
@@ -157,7 +225,7 @@
                                         <tbody>
                                         <tr v-for="c in tableData">
                                             <td>
-                                                <input :id="c.id" v-model="checkitemIds" type="checkbox" :value="c.id">
+                                                <input :id="c.id" v-model="checkgroupIds" type="checkbox" :value="c.id">
                                             </td>
                                             <td><label :for="c.id">{{c.code}}</label></td>
                                             <td><label :for="c.id">{{c.name}}</label></td>
@@ -171,13 +239,12 @@
                     </template>
                     <div slot="footer" class="dialog-footer">
                         <el-button @click="dialogFormVisible = false">取消</el-button>
-                        <el-button type="primary" @click="addOrUpMean()">确定</el-button>
+                        <el-button type="primary" @click="handleAdd()">确定</el-button>
                     </div>
                 </el-dialog>
             </div>
         </div>
     </div>
-</div>
 </div>
 </body>
 
@@ -186,8 +253,8 @@
         el: '#app',
         mixins: [Mixins],
         data: {
-            titles: "",
-            addOrUpMeanNum: 1,
+            autoUpload: true,//自动上传
+            imageUrl: null,//模型数据，用于上传图片完成后图片预览
             activeName: 'first',//添加/编辑窗口Tab标签名称
             pagination: {//分页相关属性
                 currentPage: 1,
@@ -197,79 +264,52 @@
             },
             dataList: [],//列表数据
             formData: {},//表单数据
-            tableData: [],//新增和编辑表单中对应的检查项列表数据
-            checkitemIds: [],//新增和编辑表单中检查项对应的复选框，基于双向绑定可以进行回显和数据提交
-            dialogFormVisible: false,//控制添加窗口显示/隐藏
+            tableData: [],//添加表单窗口中检查组列表数据
+            checkgroupIds: [],//添加表单窗口中检查组复选框对应id
+            dialogFormVisible: false//控制添加窗口显示/隐藏
         },
         created() {
             this.findPage();
         },
         methods: {
-            //请求所有检查项
-            getShowItem() {
-                axios.get(this.baseUrl + "/group/findAllItem").then((response) => {
-                    if (response.data.flag) {
-                        //更新模型中的检查组信息
-                        this.tableData = response.data.data;
-                    } else {
-                        //失败消息提醒
-                        this.$message.error(response.data.message);
-                    }
-                }).catch((error) => {
-                    console.log(error);
-                    this.$message.error("网络异常");
+            //图片上传完成后自动执行
+            handleAvatarSuccess(response, file, fileList) {
+                // 与axios的请求回调参数不同，这里response <==> Result
+                this.imageUrl = response.data;
+                this.$message({
+                    message: response.message,
+                    type: response.flag ? 'success' : 'error'
                 });
+                //设置模型数据（图片名称），后续提交ajax请求时会提交到后台最终保存到数据库
+                this.formData.img = response.data;
             },
-            //调用查询或者更新
-            addOrUpMean() {
-                if (this.addOrUpMeanNum == 1) {
-                    this.handleAdd();
-                } else {
-                    this.handleEdit();
+            //上传图片之前执行
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isJPG) {
+                    this.$message.error('上传套餐图片只能是 JPG 格式!');
                 }
-            },
-            //打开窗口
-            openDown() {
-                this.dialogFormVisible = true;
-            },
-            //编辑
-            handleEdit() {
-                this.formData.checkItems = {};
-                //隐藏弹窗
-                axios({
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    method: 'post',
-                    url: this.baseUrl + "group/update/" + this.checkitemIds,
-                    data: Qs.stringify(this.formData)
-                }).then((res) => {
-                    console.log(res);
-                    this.$message({
-                        message: res.data.message,
-                        type: 'success'
-                    });
-                    this.dialogFormVisible = false;
-                }).catch((error) => {
-                    console.log(error);
-                    this.$message.error("网络异常");
-                }).finally(() => {
-                    this.findPage();
-                });
+                if (!isLt2M) {
+                    this.$message.error('上传套餐图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
             },
             //添加
             handleAdd() {
-                //隐藏弹窗
                 axios({
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     method: 'post',
-                    url: this.baseUrl + "group/save/" + this.checkitemIds,
+                    url: this.baseUrl + "meal/add/" + this.checkgroupIds,
                     data: Qs.stringify(this.formData)
                 }).then((res) => {
                     console.log(res);
-                    this.$message({
-                        message: res.data.message,
-                        type: 'success'
-                    });
                     this.dialogFormVisible = false;
+                    if (res.data.flag) {
+                        this.$message.success(res.data.message);
+                    } else {
+                        this.$message.error(res.data.message);
+                    }
                 }).catch((error) => {
                     console.log(error);
                     this.$message.error("网络异常");
@@ -278,84 +318,55 @@
                 });
             },
             //分页查询
-            findPage(pageNo) {
-                //如果传入页码则先更新模型中的页码
-                if (pageNo) {
-                    this.pagination.currentPage = pageNo;
+            findPage(currentPage) {
+                if (currentPage) {
+                    this.pagination.currentPage = currentPage;
                 }
-                //构造请求参数
-                var param = {
+                //分页条件
+                let param = {
                     currentPage: this.pagination.currentPage,
                     pageSize: this.pagination.pageSize,
                     queryString: this.pagination.queryString
                 };
-                //发起http请求
-                axios.get(this.baseUrl + "/group/findPage", {params: param}).then((response) => {
-                    if (response.data.flag) {
-                        this.dataList = response.data.data.rows;
-                        this.pagination.total = response.data.data.total;
+                axios({
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    method: 'post',
+                    url: this.baseUrl + "meal/findPage",
+                    params: param
+                }).then((res) => {
+                    if (res.data.flag) {
+                        //请求成功
+                        this.dataList = res.data.data.rows;
+                        this.pagination.total = res.data.data.total;
                     } else {
                         //请求失败
-                        this.$message.error(response.data.message);
+                        this.$message.error(res.data.message);
                     }
                 }).catch((error) => {
                     console.log(error);
+                    //请求失败
                     this.$message.error("网络异常");
                 });
             },
             // 重置表单
             resetForm() {
                 this.formData = {};
+                this.activeName = 'first';
+                this.checkgroupIds = [];
+                this.imageUrl = null;
             },
             // 弹出添加窗口
             handleCreate() {
-                //数据重置
+                this.dialogFormVisible = true;
                 this.resetForm();
-                this.checkitemIds = [];
-                //显示第一个tab
-                this.activeName = 'first';
-                //显示添加窗口
-                this.openDown();
-                this.addOrUpMeanNum = 1;
-                this.titles = "添加";
-                this.getShowItem();
-            },
-            // 弹出编辑窗口
-            handleUpdate(row) {
-                //重置表单
-                this.resetForm();
-                this.checkitemIds = [];
-                // 激活编辑框第一个tab
-                this.activeName = 'first';
-                //请求回显数据  检查组数据 关联的检查项id集和  所有的检查项
-                this.openDown();
-                this.addOrUpMeanNum = 2;
-                this.titles = "更新";
-                //请求检查组数据
                 axios({
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     method: 'post',
-                    url: this.baseUrl + "group/findById/" + row.id,
-                }).then((res) => {
-                    console.log(res);
-                    //更新模型-关联的检查组信息
-                    this.formData = res.data.data;
-                }).catch((error) => {
-                    console.log(error);
-                    this.$message.error("网络异常");
-                });
-                this.getShowItem();
-                //请求关联的检查项id集和
-                axios({
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    method: 'post',
-                    url: this.baseUrl + "group/groupIdAndItemId/" + row.id,
+                    url: this.baseUrl + "group/findAllGroup",
                 }).then((res) => {
                     if (res.data.flag) {
-                        //更新模型-关联检查项id集合
-                        this.checkitemIds = res.data.data;
+                        this.tableData = res.data.data;
                     } else {
-                        //失败消息提醒
                         this.$message.error(res.data.message);
                     }
                 }).catch((error) => {
@@ -367,9 +378,6 @@
             handleCurrentChange(currentPage) {
                 this.pagination.currentPage = currentPage;
                 this.findPage();
-            },
-            // 删除
-            handleDelete(row) {
             }
         }
     })

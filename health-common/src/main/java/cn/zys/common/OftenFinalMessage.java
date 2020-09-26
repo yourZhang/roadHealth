@@ -11,10 +11,10 @@ public class OftenFinalMessage {
     //跨域地址设置
     public static final String Host_Addr = "http://127.0.0.1:8083";
     //zookeeper地址
-    private static final String QQ_Config_Ip = "62.234.118.219";
-    private static final Integer QQ_Config_Prot = 2182;
-    private static final String LocalHsot_Config_Ip = "127.0.0.1";
-    private static final Integer LocalHsot_Config_Prot = 2181;
+    public static final String QQ_Config_Ip = "62.234.118.219";
+    public static final Integer QQ_Config_Prot = 2182;
+    public static final String LocalHsot_Config_Ip = "127.0.0.1";
+    public static final Integer LocalHsot_Config_Prot = 2181;
 
     //62.234.118.219   localhost
     public static final String Host_Zookeeper_Addr = LocalHsot_Config_Ip;

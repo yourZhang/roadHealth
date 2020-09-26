@@ -75,4 +75,10 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         Integer integer1 = checkGroupMapper.saveItemId(itemId, checkGroup.getId());
         return new Result(true,MessageConst.EDIT_CHECKGROUP_SUCCESS,integer1);
     }
+
+    @Override
+    public List<CheckGroup> findAllGroup() {
+        List<CheckGroup> allGroup = checkGroupMapper.findAllGroup();
+        return allGroup;
+    }
 }

@@ -91,7 +91,14 @@
     </update>
 
     <delete id="delIds">
-        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+        delete
+        from t_checkgroup_checkitem
+        where checkgroup_id = #{id}
     </delete>
+
+    <select id="findAllGroup" resultMap="findByIdMap">
+        select *
+        from t_checkgroup;
+    </select>
 </mapper>
 

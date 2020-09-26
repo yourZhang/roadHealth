@@ -105,9 +105,24 @@ public class CheckGroupController {
         return new Result(true, MessageConst.ACTION_SUCCESS, integers);
     }
 
+    /**
+     * 功能描述: <br>
+     * 〈更新和编译检查组〉
+     *
+     * @Param: [checkGroup, itemId]
+     * @return: cn.zys.entity.Result
+     * @Author: xiaozhang666
+     * @Date: 2020/9/25 17:58
+     */
     @RequestMapping("update/{itemId}")
     public Result update(CheckGroup checkGroup, @PathVariable("itemId") Integer[] itemId) {
         log.info(":::更新内容{}:::关系项{}", checkGroup, itemId);
-        return checkGroupService.update(checkGroup,itemId);
+        return checkGroupService.update(checkGroup, itemId);
+    }
+
+    @RequestMapping("findAllGroup")
+    public Result findAllGroup() {
+        List<CheckGroup> allGroup = checkGroupService.findAllGroup();
+        return new Result(true, MessageConst.ACTION_SUCCESS, allGroup);
     }
 }

@@ -7,17 +7,15 @@ import org.springframework.context.annotation.Import;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-
 /**
  * @program: road-health
- * @description: SpringConfig
+ * @description:
  * @author: xiaozhang6666
- * @create: 2020-09-20 21:25
+ * @create: 2020-09-25 21:14
  **/
 @Configuration
-@Import({MyBatisConfig.class, DubboProviderConfig.class})
+@Import({QuartzConfig.class})
 public class SpringConfig {
-
     //redis注入
     @Bean
     public JedisPoolConfig jedisPoolConfig() {
@@ -35,5 +33,4 @@ public class SpringConfig {
         JedisPool jedisPool = new JedisPool(jedisPoolConfig, OftenFinalMessage.QQ_Config_Ip, 6379);
         return jedisPool;
     }
-
 }

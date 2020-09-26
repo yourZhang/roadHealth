@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @Author: xiaozhang666 -->
+<!-- @Date: 2020/9/25 17:50 -->
+<mapper namespace="cn.zys.mapper.SetMealMapper">
+    <select id="findPage" resultType="cn.zys.pojo.Setmeal">
+        select *
+        from t_setmeal
+        <where>
+            <if test="queryString != null and queryString.length > 0">
+                code like concat('%',concat(#{queryString},'%')) or name like concat('%',concat(#{queryString},'%'))
+            </if>
+        </where>
+    </select>
+
+    <insert id="addMeal">
+        <selectKey keyColumn="id" keyProperty="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_setmeal (name, code, helpCode, sex, age, price, remark, attention, img)
+        values (#{name}, #{code}, #{helpCode}, #{sex}, #{age}, #{price}, #{remark}, #{attention}, #{img});
+    </insert>
+
+    <insert id="addMealAndGroupId">
+        insert into t_setmeal_checkgroup (setmeal_id, checkgroup_id)
+        values
+        <foreach collection="groupId" item="checkgroup_id" separator=",">
+            (#{setmeal_id},#{checkgroup_id})
+        </foreach>
+    </insert>
+</mapper>

@@ -32,4 +32,7 @@ public interface CheckGroupMapper {
 
     //删除关系表
     Integer delIds(Integer id);
+
+    //查询所有检查组
+    List<CheckGroup> findAllGroup();
 }

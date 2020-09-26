@@ -1,7 +1,13 @@
 package cn.zys.config;
 
+import cn.zys.common.OftenFinalMessage;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * @program: road-health
@@ -12,4 +18,32 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import({CorsAutoConfig.class, DubboConsumerConfig.class, SpringMVCConfig.class})
 public class SpringConfig {
+
+    //redis注入
+    @Bean
+    public JedisPoolConfig jedisPoolConfig() {
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxIdle(50);
+        jedisPoolConfig.setMaxIdle(20);
+        jedisPoolConfig.setMaxWaitMillis(100 * 1000);
+        jedisPoolConfig.setTestOnBorrow(true);
+//        jedisPoolConfig.setTestOnReturn(true);
+        return jedisPoolConfig;
+    }
+
+    @Bean
+    public JedisPool jedisPool(JedisPoolConfig jedisPoolConfig) {
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, OftenFinalMessage.QQ_Config_Ip, 6379);
+        return jedisPool;
+    }
+
+    //限制上传文件大小
+    @Bean
+    public CommonsMultipartResolver multipartResolver(){
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(104857600);
+        multipartResolver.setMaxInMemorySize(4096);
+        multipartResolver.setDefaultEncoding("UTF-8");
+        return multipartResolver;
+    }
 }
