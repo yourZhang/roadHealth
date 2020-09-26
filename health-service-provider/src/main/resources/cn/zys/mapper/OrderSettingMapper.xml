@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @Author: xiaozhang666 -->
+<!-- @Date: 2020/9/26 16:00 -->
+<mapper namespace="cn.zys.mapper.OrderSettingMapper">
+    <insert id="saveOrders">
+        replace into t_ordersetting(orderDate, number, reservations) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.orderDate},#{item.number},#{item.reservations})
+        </foreach>
+    </insert>
+
+    <select id="findAll" resultType="cn.zys.pojo.OrderSetting">
+        select *
+        from t_ordersetting
+        where orderDate between #{startYear} and #{endYear}
+    </select>
+
+    <update id="editNumberByDate">
+        update t_ordersetting
+        set number = #{number}
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultType="java.lang.Integer">
+        select id
+        from t_ordersetting
+        where orderDate = #{orderDate};
+    </select>
+</mapper>
