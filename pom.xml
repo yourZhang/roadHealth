@@ -15,6 +15,8 @@
         <module>health-oms-backend</module>
         <module>health-oms-web</module>
         <module>health-job</module>
+        <module>health-mobile-backend</module>
+        <module>health-mobile-web</module>
     </modules>
 
     <!--    指定jdk版本和编码-->

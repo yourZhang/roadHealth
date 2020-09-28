@@ -56,11 +56,22 @@
     </update>
 
     <delete id="delItem">
-        delete from t_checkitem where id = #{id}
+        delete
+        from t_checkitem
+        where id = #{id}
     </delete>
 
     <select id="findGroups" resultType="java.lang.Long">
         select count(checkgroup_id)
-        from t_checkgroup_checkitem where checkitem_id = #{id};
+        from t_checkgroup_checkitem
+        where checkitem_id = #{id};
+    </select>
+
+    <select id="groupItem" resultType="cn.zys.pojo.CheckItem">
+        select *
+        from t_checkitem
+        where id in (select checkitem_id
+                     from t_checkgroup_checkitem
+                     where checkgroup_id = #{id})
     </select>
 </mapper>

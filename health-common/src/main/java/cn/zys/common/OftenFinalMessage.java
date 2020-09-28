@@ -2,14 +2,16 @@ package cn.zys.common;
 
 /**
  * @program: road-health
- * @description: OftenFinalMessage
+ * @description: 地址常量
  * @author: xiaozhang6666
  * @create: 2020-09-21 20:21
  **/
 public class OftenFinalMessage {
 
-    //跨域地址设置
+    //后台跨域地址设置
     public static final String Host_Addr = "http://127.0.0.1:8083";
+    //cwap 跨域地址
+    public static final String Host_Cwap_Addr = "http://127.0.0.1:8085";
     //zookeeper地址
     public static final String QQ_Config_Ip = "62.234.118.219";
     public static final Integer QQ_Config_Prot = 2182;

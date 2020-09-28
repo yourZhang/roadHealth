@@ -35,4 +35,7 @@ public interface CheckGroupMapper {
 
     //查询所有检查组
     List<CheckGroup> findAllGroup();
+
+    //映射sermeal的子查询
+    List<CheckGroup> setMealsGroup(Integer id);
 }

@@ -19,6 +19,8 @@ import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.util.List;
+
 
 /**
  * @program: road-health
@@ -53,5 +55,17 @@ public class SetMealServiceImpl implements SetMealService {
             }
         }
         return new Result(true, MessageConst.ACTION_SUCCESS, integer);
+    }
+
+    @Override
+    public Result getSetmeal() {
+        final List<Setmeal> setmeal = setMealMapper.getSetmeal();
+        return new Result(true, MessageConst.GET_ORDERSETTING_SUCCESS, setmeal);
+    }
+
+    @Override
+    public Result findById(Integer id) {
+        final Setmeal byId = setMealMapper.findById(id);
+        return new Result(true, MessageConst.GET_SETMEAL_COUNT_REPORT_SUCCESS, byId);
     }
 }

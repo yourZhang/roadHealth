@@ -100,5 +100,17 @@
         select *
         from t_checkgroup;
     </select>
+
+    <resultMap id="setMealsGroupMap" type="cn.zys.pojo.CheckGroup">
+        <collection property="checkItems" ofType="cn.zys.pojo.CheckItem" column="id"
+                    select="cn.zys.mapper.CheckItemMapper.groupItem"/>
+    </resultMap>
+    <select id="setMealsGroup" resultMap="setMealsGroupMap">
+        select *
+        from t_checkgroup
+        where id in (select checkgroup_id
+                     from t_setmeal_checkgroup
+                     where setmeal_id = #{id})
+    </select>
 </mapper>
 

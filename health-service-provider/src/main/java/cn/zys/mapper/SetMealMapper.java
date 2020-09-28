@@ -6,6 +6,8 @@ import cn.zys.pojo.Setmeal;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 public interface SetMealMapper {
     //展示数据表格 分页条件
@@ -16,4 +18,10 @@ public interface SetMealMapper {
 
     //添加套餐和检查组关系表
     Integer addMealAndGroupId(@Param("groupId") Integer[] groupId, @Param("setmeal_id") Integer setmeal_id);
+
+    //查询所有预约内容
+    List<Setmeal> getSetmeal();
+
+    //查询预约详情
+    Setmeal findById(Integer id);
 }
