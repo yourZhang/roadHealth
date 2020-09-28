@@ -14,7 +14,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * @create: 2020-09-25 21:14
  **/
 @Configuration
-@Import({QuartzConfig.class})
+@Import({QuartzConfig.class, TestQAnnoConfig.class})
 public class SpringConfig {
     //redis注入
     @Bean
@@ -30,7 +30,8 @@ public class SpringConfig {
 
     @Bean
     public JedisPool jedisPool(JedisPoolConfig jedisPoolConfig) {
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, OftenFinalMessage.QQ_Config_Ip, 6379);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, OftenFinalMessage.Redis_Ip, OftenFinalMessage.Redis_Port,
+                OftenFinalMessage.Redis_TiemOut, OftenFinalMessage.Redis_PassWord);
         return jedisPool;
     }
 }

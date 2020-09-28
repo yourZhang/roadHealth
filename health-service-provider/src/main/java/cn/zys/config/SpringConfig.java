@@ -32,7 +32,8 @@ public class SpringConfig {
 
     @Bean
     public JedisPool jedisPool(JedisPoolConfig jedisPoolConfig) {
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, OftenFinalMessage.QQ_Config_Ip, 6379);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, OftenFinalMessage.Redis_Ip, OftenFinalMessage.Redis_Port,
+                OftenFinalMessage.Redis_TiemOut, OftenFinalMessage.Redis_PassWord);
         return jedisPool;
     }
 

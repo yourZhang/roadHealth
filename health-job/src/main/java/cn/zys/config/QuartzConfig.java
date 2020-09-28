@@ -1,8 +1,6 @@
 package cn.zys.config;
 
 import cn.zys.quartzs.ClearImageJob;
-import org.quartz.JobDetail;
-import org.quartz.Trigger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;

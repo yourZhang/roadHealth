@@ -33,13 +33,14 @@ public class SpringConfig {
 
     @Bean
     public JedisPool jedisPool(JedisPoolConfig jedisPoolConfig) {
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, OftenFinalMessage.QQ_Config_Ip, 6379);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, OftenFinalMessage.Redis_Ip, OftenFinalMessage.Redis_Port,
+                OftenFinalMessage.Redis_TiemOut, OftenFinalMessage.Redis_PassWord);
         return jedisPool;
     }
 
     //限制上传文件大小
     @Bean
-    public CommonsMultipartResolver multipartResolver(){
+    public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
         multipartResolver.setMaxUploadSize(104857600);
         multipartResolver.setMaxInMemorySize(4096);
