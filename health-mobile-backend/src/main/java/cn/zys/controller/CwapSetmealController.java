@@ -36,6 +36,15 @@ public class CwapSetmealController {
         return setMealService.getSetmeal();
     }
 
+    /**
+     * 功能描述: <br>
+     * 〈根据setmeal 的 id查询 关联的 group item〉
+     *
+     * @Param: [id]
+     * @return: cn.zys.entity.Result
+     * @Author: xiaozhang666
+     * @Date: 2020/9/28 16:49
+     */
     @RequestMapping("findById/{id}")
     public Result findById(@PathVariable Integer id) {
         log.info("获取id:::{}", id);
