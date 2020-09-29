@@ -7,6 +7,9 @@ import cn.zys.pojo.OrderSetting;
 import cn.zys.service.OrderSettingService;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -49,6 +52,7 @@ public class OrderSettingServiceImpl implements OrderSettingService {
     }
 
     @Override
+    @Transactional(transactionManager = "transactionManager", isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public Result editNumberByDate(OrderSetting orderSetting) {
         final Integer byId = orderSettingMapper.findById(orderSetting);
         orderSetting.setId(byId);

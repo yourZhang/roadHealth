@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @Author: xiaozhang666 -->
+<!-- @Date: 2020/9/29 17:06 -->
+<mapper namespace="cn.zys.mapper.OrderMapper">
+    <select id="findByDateAndOrderAndMemberId" resultType="java.lang.Integer">
+        select count(*)
+        from t_order
+        where member_id = #{mid}
+          and setmeal_id = #{sid}
+          and orderDate = #{date}
+    </select>
+
+    <insert id="saveOrder">
+        <selectKey keyProperty="id" order="AFTER" resultType="integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into t_order (member_id, orderDate, orderType, orderStatus, setmeal_id)
+        values (#{memberId}, #{orderDate}, #{orderType}, #{orderStatus}, #{setmealId});
+    </insert>
+
+    <select id="findByIdOne" resultType="cn.zys.pojo.Order">
+        select *
+        from t_order
+        where id = #{id};
+    </select>
+
+    <resultMap id="orderResultMap" type="cn.zys.pojo.Order">
+        <result property="setmealId" column="setmeal_id"/>
+        <result property="memberId" column="member_id"/>
+    </resultMap>
+    <select id="findById" resultMap="orderResultMap">
+        select *
+        from t_order
+        where id = #{id};
+    </select>
+</mapper>

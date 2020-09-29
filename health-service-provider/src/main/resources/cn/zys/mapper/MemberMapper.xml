@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @Author: xiaozhang666 -->
+<!-- @Date: 2020/9/29 17:14 -->
+<mapper namespace="cn.zys.mapper.MemberMapper">
+    <insert id="saveMember">
+        <selectKey keyProperty="id" order="AFTER" resultType="integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into t_member (fileNumber, name, sex, idCard, phoneNumber, regTime, password, email, birthday, remark)
+        values (#{fileNumber}, #{name}, #{sex}, #{idCard}, #{phoneNumber}, #{regTime}, #{password}, #{email},
+        #{birthday}, #{remark});
+    </insert>
+
+    <select id="findByPhone" resultType="cn.zys.pojo.Member">
+        select *
+        from t_member
+        where phoneNumber = #{phone}
+    </select>
+
+    <select id="findById" resultType="cn.zys.pojo.Member">
+        select *
+        from t_member where id = #{id};
+    </select>
+</mapper>

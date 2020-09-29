@@ -1,6 +1,8 @@
 package cn.zys.controller;
 
+import cn.zys.common.MessageConst;
 import cn.zys.entity.Result;
+import cn.zys.pojo.Setmeal;
 import cn.zys.service.SetMealService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import lombok.extern.slf4j.Slf4j;
@@ -49,5 +51,12 @@ public class CwapSetmealController {
     public Result findById(@PathVariable Integer id) {
         log.info("获取id:::{}", id);
         return setMealService.findById(id);
+    }
+
+    @RequestMapping("findByIdOne/{id}")
+    public Result findByIdOne(@PathVariable Integer id) {
+        log.info("获取id:::{}", id);
+        final Setmeal byIdOne = setMealService.findByIdOne(id);
+        return new Result(true, MessageConst.ACTION_SUCCESS, byIdOne);
     }
 }

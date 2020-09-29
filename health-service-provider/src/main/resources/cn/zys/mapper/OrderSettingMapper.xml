@@ -27,4 +27,9 @@
         from t_ordersetting
         where orderDate = #{orderDate};
     </select>
+
+    <select id="findByDate" resultType="cn.zys.pojo.OrderSetting">
+        select *
+        from t_ordersetting where orderDate = #{date};
+    </select>
 </mapper>

@@ -9,4 +9,7 @@ package cn.zys.common;
 public class RedisMessage {
     public static String ImageInRedisName = "ImageInRedisName";
     public static String ImageOutRedisName = "ImageOutRedisName";
+
+    //验证码前缀
+    public static final String VALIDATE_CODE_PREFIX = "validateCode:";
 }

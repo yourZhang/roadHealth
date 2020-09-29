@@ -22,6 +22,9 @@ public interface SetMealMapper {
     //查询所有预约内容
     List<Setmeal> getSetmeal();
 
-    //查询预约详情
+    //查询预约详情 和所有的关联项关系表
     Setmeal findById(Integer id);
+
+    //查询单个setmeal
+    Setmeal findByIdOne(Integer id);
 }

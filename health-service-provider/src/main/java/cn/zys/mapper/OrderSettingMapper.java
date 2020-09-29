@@ -4,6 +4,7 @@ import cn.zys.entity.Result;
 import cn.zys.pojo.OrderSetting;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface OrderSettingMapper {
@@ -18,4 +19,7 @@ public interface OrderSettingMapper {
 
     //更新之前获取id，根据时间查询
     Integer findById(OrderSetting orderSetting);
+
+    //根据日期查询是否有预约内容
+    OrderSetting findByDate(Date date);
 }

@@ -43,4 +43,9 @@
         from t_setmeal
         where id = #{id}
     </select>
+
+    <select id="findByIdOne" resultType="cn.zys.pojo.Setmeal">
+        select *
+        from t_setmeal where id = #{id}
+    </select>
 </mapper>

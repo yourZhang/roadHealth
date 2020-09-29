@@ -17,4 +17,7 @@ public interface SetMealService {
 
     //查询预约详情
     Result findById(Integer id);
+
+    //查询单个setmeal
+    Setmeal findByIdOne(Integer id);
 }

@@ -68,4 +68,10 @@ public class SetMealServiceImpl implements SetMealService {
         final Setmeal byId = setMealMapper.findById(id);
         return new Result(true, MessageConst.GET_SETMEAL_COUNT_REPORT_SUCCESS, byId);
     }
+
+    @Override
+    public Setmeal findByIdOne(Integer id) {
+        final Setmeal byIdOne = setMealMapper.findByIdOne(id);
+        return byIdOne;
+    }
 }
