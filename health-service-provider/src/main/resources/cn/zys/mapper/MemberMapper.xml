@@ -20,6 +20,13 @@
 
     <select id="findById" resultType="cn.zys.pojo.Member">
         select *
-        from t_member where id = #{id};
+        from t_member
+        where id = #{id};
+    </select>
+
+    <select id="countByRegTimeBefore">
+        select count(1)
+        from t_member
+        where regTime &lt;= #{endDate}
     </select>
 </mapper>

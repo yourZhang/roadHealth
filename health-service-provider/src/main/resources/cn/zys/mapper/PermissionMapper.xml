@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- @Author: xiaozhang666 -->
+<!-- @Date: 2020/10/8 10:31 -->
+<mapper namespace="cn.zys.mapper.PermissionMapper">
+
+    <select id="findByRoleId" resultType="cn.zys.pojo.Permission">
+        select *
+        from t_permission where id = (select permission_id from t_role_permission where role_id = #{id})
+    </select>
+</mapper>

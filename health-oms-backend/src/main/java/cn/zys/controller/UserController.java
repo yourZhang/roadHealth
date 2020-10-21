@@ -1,5 +1,6 @@
 package cn.zys.controller;
 
+import cn.zys.common.MessageConst;
 import cn.zys.entity.Result;
 import cn.zys.pojo.TestUser;
 import cn.zys.pojoVo.UserVo;
@@ -27,6 +28,19 @@ public class UserController {
     @Reference
     UserService userService;
 
+    @RequestMapping("/loginSuccess")
+    @ResponseBody
+    public Result loginSuccess() {
+        return new Result(true, MessageConst.LOGIN_SUCCESS);
+    }
+
+    @RequestMapping("/loginFail")
+    @ResponseBody
+    public Result loginFail() {
+        return new Result(false, "登录失败");
+    }
+
+
     @RequestMapping("login")
     @ResponseBody
     public Result login(UserVo userVo) {
@@ -34,7 +48,7 @@ public class UserController {
         Result login = userService.login(userVo);
         return login;
     }
-
+    // 以下是------------------------------测试
     //测试中文字符
     @RequestMapping("findAllU")
     @ResponseBody

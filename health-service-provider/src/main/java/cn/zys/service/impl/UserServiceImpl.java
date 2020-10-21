@@ -1,13 +1,20 @@
 package cn.zys.service.impl;
 
 import cn.zys.entity.Result;
+import cn.zys.mapper.PermissionMapper;
+import cn.zys.mapper.RoleMapper;
 import cn.zys.mapper.UserMapper;
+import cn.zys.pojo.Permission;
+import cn.zys.pojo.Role;
 import cn.zys.pojo.TestUser;
+import cn.zys.pojo.User;
 import cn.zys.pojoVo.UserVo;
 import cn.zys.service.UserService;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,11 +29,18 @@ import java.util.List;
  * @create: 2020-09-20 22:46
  **/
 @Service
-//@org.springframework.stereotype.Service
+@org.springframework.stereotype.Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    RoleMapper roleMapper;
+
+    @Autowired
+    PermissionMapper permissionMapper;
 
     @Override
     public Result login(UserVo userVo) {
@@ -54,5 +68,19 @@ public class UserServiceImpl implements UserService {
         Integer integer = userMapper.saveUser(user);
         int i = 1 / 0;
         return integer;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        final User user = userMapper.selectByUsername(username);
+        log.info(":::查看数据{}", user);
+        //查询角色
+        List<Role> roles = roleMapper.selectByUserId(user.getId());
+        roles.forEach((values) -> {
+            List<Permission> byRoleId = permissionMapper.findByRoleId(values.getId());
+            values.getPermissions().addAll(byRoleId);
+        });
+        user.getRoles().addAll(roles);
+        return user;
     }
 }

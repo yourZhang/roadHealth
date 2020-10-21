@@ -12,7 +12,7 @@ var Mixins = {
 
     },
     methods: {
-        //预处理
+        //预处理 生产环境
         handleBaseUrl() {
             let that = this;
             if (that.awInt == 1) {

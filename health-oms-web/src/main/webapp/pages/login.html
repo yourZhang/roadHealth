@@ -69,12 +69,12 @@
                 axios({
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     method: 'post',
-                    url: this.baseUrl + "user/login",
+                    url: this.baseUrl + "sec/login",
                     data: Qs.stringify(this.formData)
                 }).then((res) => {
                     console.log(res.data);
                     if(res.data.flag){
-                        location.href = "pages/main.html";
+                        location.href = "/pages/main.html";
                     }else{
                         this.$message.error(res.data.message);
                     }

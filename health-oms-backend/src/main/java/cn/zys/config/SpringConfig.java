@@ -16,7 +16,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * @create: 2020-09-21 16:07
  **/
 @Configuration
-@Import({CorsAutoConfig.class, DubboConsumerConfig.class, SpringMVCConfig.class})
+@Import({CorsAutoConfig.class, DubboConsumerConfig.class, SpringMVCConfig.class, SecurityConfig.class, SpringSecurityInitConfig.class})
 public class SpringConfig {
 
     //redis注入

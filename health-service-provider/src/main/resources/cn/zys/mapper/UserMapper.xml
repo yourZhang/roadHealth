@@ -18,4 +18,8 @@
         from t_user where username = #{username} and password = #{password};
     </select>
 
+    <select id="selectByUsername" resultType="cn.zys.pojo.User">
+        select *
+        from t_user where username = #{username}
+    </select>
 </mapper>

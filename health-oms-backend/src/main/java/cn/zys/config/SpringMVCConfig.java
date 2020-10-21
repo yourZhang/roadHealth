@@ -1,10 +1,12 @@
 package cn.zys.config;
 
+import cn.zys.common.OftenFinalMessage;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.servlet.config.annotation.*;
 
 import java.nio.charset.StandardCharsets;
@@ -20,6 +22,7 @@ import java.util.List;
         @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {org.springframework.stereotype.Controller.class})
 }, useDefaultFilters = false)
 @EnableWebMvc
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringMVCConfig implements WebMvcConfigurer {
 
     @Override
@@ -40,7 +43,7 @@ public class SpringMVCConfig implements WebMvcConfigurer {
         // 设置允许跨域的路径
         registry.addMapping("/**")
                 // 设置允许跨域请求的域名
-                .allowedOrigins("*")
+                .allowedOrigins(OftenFinalMessage.Host_Addr)
                 // 是否允许证书
                 .allowCredentials(true)
                 // 设置允许的方法

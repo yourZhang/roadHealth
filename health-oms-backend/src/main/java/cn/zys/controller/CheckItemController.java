@@ -8,6 +8,7 @@ import cn.zys.pojo.CheckItem;
 import cn.zys.service.CheckItemService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,7 @@ public class CheckItemController {
      * @Author: xiaozhang666
      * @Date: 2020/9/22 17:43
      */
+    @PreAuthorize("hasAuthority('find')")//权限校验
     @RequestMapping("queryItem")
     @ResponseBody
     public Result queryItem(QueryPageBean queryPageBean) {

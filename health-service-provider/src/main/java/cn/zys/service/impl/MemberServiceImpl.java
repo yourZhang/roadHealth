@@ -1,5 +1,7 @@
 package cn.zys.service.impl;
 
+import cn.zys.common.MessageConst;
+import cn.zys.entity.Result;
 import cn.zys.mapper.MemberMapper;
 import cn.zys.pojo.Member;
 import cn.zys.service.MemberService;
@@ -9,6 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @program: road-health
@@ -35,5 +42,19 @@ public class MemberServiceImpl implements MemberService {
         }
         log.info("::::::::::::::::::::::::::::::::::::::::::::{}", member);
         return memberMapper.findById(member.getId());
+    }
+
+    @Override
+    public Result getMemberReport(List<String> dates) {
+        List<Integer> resultLIst = new ArrayList<>();
+        for (String month : dates) {
+            String endDate = month+".31";
+            Long count = memberMapper.countByRegTimeBefore(endDate);
+            resultLIst.add(count.intValue());
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("months",dates);
+        map.put("memberCount",resultLIst);
+        return  new Result(true, MessageConst.GET_MEMBER_NUMBER_REPORT_SUCCESS,map);
     }
 }

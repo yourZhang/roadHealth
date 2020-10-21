@@ -1,5 +1,6 @@
 import cn.zys.config.SpringConfig;
 import cn.zys.pojo.TestUser;
+import cn.zys.pojo.User;
 import cn.zys.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -37,5 +38,11 @@ public class TestMyBatis {
     public void test02(){
         Integer integer = userService.saveUser(new TestUser(null, "大计基", new Date(), "男", "火星人"));
         System.out.println(integer);
+    }
+
+    @Test
+    public void test03(){
+        final User lisi = userService.findByUsername("lisi");
+        System.out.println(lisi);
     }
 }

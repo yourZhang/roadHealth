@@ -1,5 +1,7 @@
 package cn.zys.pojo;
 
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -8,7 +10,8 @@ import java.util.Set;
 /**
  * 用户
  */
-public class User implements Serializable{
+@ToString
+public class User extends Throwable implements Serializable{
     private Integer id; // 主键
     private Date birthday; // 生日
     private String gender; // 性别
